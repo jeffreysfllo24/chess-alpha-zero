@@ -23,7 +23,7 @@ def pretty_print(env, colors):
     game.headers["Date"] = datetime.now().strftime("%Y.%m.%d")
     new_pgn.write(str(game) + "\n\n")
     new_pgn.close()
-    pyperclip.copy(env.board.fen())
+    # pyperclip.copy(env.board.fen())
 
 
 def find_pgn_files(directory, pattern='*.pgn'):
@@ -58,4 +58,3 @@ def read_game_data_from_file(path):
             return json.load(f)
     except Exception as e:
         print(e)
-
