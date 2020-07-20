@@ -43,6 +43,7 @@ class SelfPlayWorker:
     def __init__(self, config: Config):
         self.config = config
         self.current_model = self.load_model()
+        self.current_model._make_predict_function()
         self.m = Manager()
         self.cur_pipes = self.m.list([self.current_model.get_pipes(self.config.play.search_threads) for _ in range(self.config.play.max_processes)])
         self.buffer = []
@@ -82,7 +83,11 @@ class SelfPlayWorker:
         Load the current best model
         :return ChessModel: current best model
         """
+
         model = ChessModel(self.config)
+        # this is key : save the graph after loading the model
+    	global graph
+    	graph = tf.get_default_graph()
         if self.config.opts.new or not load_best_model_weight(model):
             model.build()
             save_as_best_model(model)

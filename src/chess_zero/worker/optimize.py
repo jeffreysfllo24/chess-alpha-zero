@@ -54,6 +54,7 @@ class OptimizeWorker:
         Load the next generation model from disk and start doing the training endlessly.
         """
         self.model = self.load_model()
+        self.model._make_predict_function()
         self.training()
 
     def training(self):
@@ -99,7 +100,7 @@ class OptimizeWorker:
         Compiles the model to use optimizer and loss function tuned for supervised learning
         """
         opt = Adam()
-        losses = ['categorical_crossentropy', 'mean_squared_error'] # avoid overfit for supervised 
+        losses = ['categorical_crossentropy', 'mean_squared_error'] # avoid overfit for supervised
         self.model.model.compile(optimizer=opt, loss=losses, loss_weights=self.config.trainer.loss_weights)
 
     def save_current_model(self):
@@ -154,7 +155,9 @@ class OptimizeWorker:
         """
         model = ChessModel(self.config)
         rc = self.config.resource
-
+        # this is key : save the graph after loading the model
+    	global graph
+    	graph = tf.get_default_graph()
         dirs = get_next_generation_model_dirs(rc)
         if not dirs:
             logger.debug("loading best model")
