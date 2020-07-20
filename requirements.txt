@@ -1,5 +1,5 @@
 tensorflow-gpu
-keras
+keras==2.0
 profilehooks
 numpy
 pyperclip
