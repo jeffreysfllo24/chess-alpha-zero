@@ -43,7 +43,7 @@ class SelfPlayWorker:
     def __init__(self, config: Config):
         self.config = config
         self.current_model = self.load_model()
-        self.current_model._make_predict_function()
+        # self.current_model._make_predict_function()
         self.m = Manager()
         self.cur_pipes = self.m.list([self.current_model.get_pipes(self.config.play.search_threads) for _ in range(self.config.play.max_processes)])
         self.buffer = []
