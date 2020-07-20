@@ -21,7 +21,7 @@ class PlayDataConfig:
         self.min_elo_policy = 500 # 0 weight
         self.max_elo_policy = 1800 # 1 weight
         self.sl_nb_game_in_file = 250
-        self.nb_game_in_file = 50
+        self.nb_game_in_file = 5
         self.max_file_num = 150
 
 
