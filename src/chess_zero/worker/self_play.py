@@ -52,13 +52,14 @@ class SelfPlayWorker:
         Do self play and write the data to the appropriate file.
         """
         self.buffer = []
-
         futures = deque()
         with ProcessPoolExecutor(max_workers=self.config.play.max_processes) as executor:
             for game_idx in range(self.config.play.max_processes * 2):
                 futures.append(executor.submit(self_play_buffer, self.config, cur=self.cur_pipes))
             game_idx = 0
             while True:
+                print("loop:", game_idx)
+
                 game_idx += 1
                 start_time = time()
                 env, data = futures.popleft().result()
@@ -66,7 +67,7 @@ class SelfPlayWorker:
                     f"halfmoves={env.num_halfmoves:3} {env.winner:12} "
                     f"{'by resign ' if env.resigned else '          '}")
 
-                pretty_print(env, ("current_model", "current_model"))
+                # pretty_print(env, ("current_model", "current_model"))
                 self.buffer += data
                 if (game_idx % self.config.play_data.nb_game_in_file) == 0:
                     self.flush_buffer()
