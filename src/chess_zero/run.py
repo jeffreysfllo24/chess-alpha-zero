@@ -6,7 +6,9 @@ import os
 import sys
 import multiprocessing as mp
 import keras.backend.tensorflow_backend as tfback
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+
+tf.disable_v2_behavior()
 
 #code is taken from here : https://github.com/keras-team/keras/issues/13684#issuecomment-595054461
 
