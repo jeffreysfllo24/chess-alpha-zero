@@ -54,7 +54,6 @@ class OptimizeWorker:
         Load the next generation model from disk and start doing the training endlessly.
         """
         self.model = self.load_model()
-        self.model._make_predict_function()
         self.training()
 
     def training(self):

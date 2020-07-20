@@ -7,9 +7,11 @@ from multiprocessing import connection, Pipe
 from threading import Thread
 
 import numpy as np
+import tensorflow as tf
 
 from chess_zero.config import Config
 
+graph = tf.get_default_graph()
 
 class ChessModelAPI:
     """
