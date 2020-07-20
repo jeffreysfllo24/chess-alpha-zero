@@ -9,6 +9,7 @@ from logging import getLogger
 from multiprocessing import Manager
 from threading import Thread
 from time import time
+import tensorflow as tf
 
 from chess_zero.agent.model_chess import ChessModel
 from chess_zero.agent.player_chess import ChessPlayer
@@ -20,7 +21,7 @@ from chess_zero.lib.model_helper import load_best_model_weight, save_as_best_mod
 
 logger = getLogger(__name__)
 
-
+graph = tf.get_default_graph()
 def start(config: Config):
     return SelfPlayWorker(config).start()
 
@@ -43,7 +44,7 @@ class SelfPlayWorker:
     def __init__(self, config: Config):
         self.config = config
         self.current_model = self.load_model()
-        self.current_model._make_predict_function()
+        graph = tf.get_default_graph()
         self.m = Manager()
         self.cur_pipes = self.m.list([self.current_model.get_pipes(self.config.play.search_threads) for _ in range(self.config.play.max_processes)])
         self.buffer = []
@@ -85,9 +86,6 @@ class SelfPlayWorker:
         """
 
         model = ChessModel(self.config)
-        # this is key : save the graph after loading the model
-    	global graph
-    	graph = tf.get_default_graph()
         if self.config.opts.new or not load_best_model_weight(model):
             model.build()
             save_as_best_model(model)

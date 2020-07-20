@@ -156,7 +156,6 @@ class OptimizeWorker:
         model = ChessModel(self.config)
         rc = self.config.resource
         # this is key : save the graph after loading the model
-    	global graph
     	graph = tf.get_default_graph()
         dirs = get_next_generation_model_dirs(rc)
         if not dirs:
