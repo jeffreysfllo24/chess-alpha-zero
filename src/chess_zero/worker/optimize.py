@@ -99,7 +99,7 @@ class OptimizeWorker:
         Compiles the model to use optimizer and loss function tuned for supervised learning
         """
         opt = Adam()
-        losses = ['categorical_crossentropy', 'mean_squared_error'] # avoid overfit for supervised 
+        losses = ['categorical_crossentropy', 'mean_squared_error'] # avoid overfit for supervised
         self.model.model.compile(optimizer=opt, loss=losses, loss_weights=self.config.trainer.loss_weights)
 
     def save_current_model(self):
